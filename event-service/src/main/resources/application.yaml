@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: event-service
+  jpa:
+    properties:
+      hibernate:
+        globally_quoted_identifiers_skip_column_definitions: 'true'
+        globally_quoted_identifiers: 'true'
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    username: postgres
+    url: jdbc:postgresql://localhost:5435/ems_event
+    password: postgres
+  config:
+    import: optional:file:.env[.properties]
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+server:
+  port: 8081
