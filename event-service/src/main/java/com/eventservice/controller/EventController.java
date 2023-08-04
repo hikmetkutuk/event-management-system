@@ -2,8 +2,8 @@ package com.eventservice.controller;
 
 import com.eventservice.dto.EventRequest;
 import com.eventservice.dto.EventResponse;
-import com.eventservice.model.Event;
 import com.eventservice.service.EventService;
+import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/api/event")
+@Api(tags = "event")
 public class EventController {
     private final EventService eventService;
 
