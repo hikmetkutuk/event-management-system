@@ -15,7 +15,9 @@
 	<name>event-management-system</name>
 	<modules>
 		<module>event-service</module>
-	</modules>
+		<module>discovery-server</module>
+        <module>api-gateway</module>
+    </modules>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
