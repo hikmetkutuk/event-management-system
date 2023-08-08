@@ -1,6 +1,8 @@
 
 server:
   port: 8080
+  servlet:
+    context-path: /v1/api
 
 eureka:
   client:
@@ -17,6 +19,18 @@ spring:
           uri: lb://event-service
           predicates:
             - Path=/v1/api/event/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8888/realms/ems
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+jwt:
+  auth:
+    converter:
+      resource-id: event-management-system
+      principal-attribute: preferred_username
 
 management:
   endpoints:
