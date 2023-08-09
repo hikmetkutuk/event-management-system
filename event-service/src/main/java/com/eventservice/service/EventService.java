@@ -2,102 +2,146 @@ package com.eventservice.service;
 
 import com.eventservice.dto.EventRequest;
 import com.eventservice.dto.EventResponse;
+import com.eventservice.exception.CustomExceptionHandler;
 import com.eventservice.exception.ResourceNotFoundException;
 import com.eventservice.model.Event;
 import com.eventservice.repository.EventRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class EventService {
     private final EventRepository eventRepository;
+    private static final Logger logger = LoggerFactory.getLogger(EventService.class);
 
     public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
 
     public List<EventResponse> getAllEvents() {
-        return eventRepository.findAllActiveRecords()
-                .stream()
-                .map(EventResponse::convert)
-                .collect(Collectors.toList());
+        try {
+            List<Event> events = eventRepository.findAllActiveRecords();
+
+            logger.info("Total {} events retrieved", events.size());
+
+            return events.stream()
+                    .map(EventResponse::convert)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            logger.error("Error while retrieving all events", e);
+            return Collections.emptyList();
+        }
     }
 
     public EventResponse getEventById(String id) {
-        Event event = findEventById(id);
-        return new EventResponse(
-                event.getId(),
-                event.getEventName(),
-                event.getEventDate(),
-                event.getLocation(),
-                event.getDescription(),
-                event.getCategory()
-        );
+        try {
+            Event event = findEventById(id);
+            logger.info("Event with id {} retrieved: {}", id, event);
+            return new EventResponse(
+                    event.getId(),
+                    event.getEventName(),
+                    event.getEventDate(),
+                    event.getLocation(),
+                    event.getDescription(),
+                    event.getCategory()
+            );
+        } catch (Exception e) {
+            logger.error("Error while retrieving event with id {}", id, e);
+            throw new CustomExceptionHandler("Error while retrieving event", e);
+        }
     }
 
     public EventResponse createEvent(EventRequest request) {
-        Event newEvent = new Event(
-                null,
-                request.getEventName(),
-                request.getEventDate(),
-                request.getLocation(),
-                request.getDescription(),
-                request.getCategory(),
-                null,
-                null,
-                true,
-                false,
-                LocalDateTime.now(),
-                null
-        );
-        eventRepository.save(newEvent);
-        return new EventResponse(
-                newEvent.getId(),
-                newEvent.getEventName(),
-                newEvent.getEventDate(),
-                newEvent.getLocation(),
-                newEvent.getDescription(),
-                newEvent.getCategory()
-        );
+        try {
+            Event newEvent = new Event(
+                    null,
+                    request.getEventName(),
+                    request.getEventDate(),
+                    request.getLocation(),
+                    request.getDescription(),
+                    request.getCategory(),
+                    null,
+                    null,
+                    true,
+                    false,
+                    LocalDateTime.now(),
+                    null
+            );
+            eventRepository.save(newEvent);
+
+            logger.info("New event created with ID: {}", newEvent.getId());
+
+            return new EventResponse(
+                    newEvent.getId(),
+                    newEvent.getEventName(),
+                    newEvent.getEventDate(),
+                    newEvent.getLocation(),
+                    newEvent.getDescription(),
+                    newEvent.getCategory()
+            );
+        } catch (Exception e) {
+            logger.error("Error while creating a new event", e);
+            throw new CustomExceptionHandler("Error while creating a new event", e);
+        }
     }
 
     public EventResponse updateEvent(String id, EventRequest request) {
-        Event event = findEventById(id);
-        Event updatedEvent = new Event(
-                event.getId(),
-                request.getEventName(),
-                request.getEventDate(),
-                request.getLocation(),
-                request.getDescription(),
-                request.getCategory(),
-                event.getOrganizer(),
-                event.getParticipants(),
-                true,
-                false,
-                event.getInsertedTime(),
-                LocalDateTime.now()
-        );
-        eventRepository.save(updatedEvent);
-        return new EventResponse(
-                event.getId(),
-                request.getEventName(),
-                request.getEventDate(),
-                request.getLocation(),
-                request.getDescription(),
-                request.getCategory()
-        );
+        try {
+            Event event = findEventById(id);
+            Event updatedEvent = new Event(
+                    event.getId(),
+                    request.getEventName(),
+                    request.getEventDate(),
+                    request.getLocation(),
+                    request.getDescription(),
+                    request.getCategory(),
+                    event.getOrganizer(),
+                    event.getParticipants(),
+                    true,
+                    false,
+                    event.getInsertedTime(),
+                    LocalDateTime.now()
+            );
+            eventRepository.save(updatedEvent);
+
+            logger.info("Event with ID {} updated", id);
+
+            return new EventResponse(
+                    event.getId(),
+                    request.getEventName(),
+                    request.getEventDate(),
+                    request.getLocation(),
+                    request.getDescription(),
+                    request.getCategory()
+            );
+        } catch (Exception e) {
+            logger.error("Error while updating the event with ID {}", id, e);
+            throw new CustomExceptionHandler("Error while updating the event", e);
+        }
     }
 
     public String deleteEvent(String id) {
-        Event event = findEventById(id);
-        event.setActive(false);
-        event.setDeleted(true);
-        event.setUpdatedTime(LocalDateTime.now());
-        eventRepository.save(event);
-        return "Event with ID " + id + " successfully deleted.";
+        try {
+            Event event = findEventById(id);
+            event.setActive(false);
+            event.setDeleted(true);
+            event.setUpdatedTime(LocalDateTime.now());
+            eventRepository.save(event);
+
+            logger.info("Event with ID {} deleted", id);
+
+            return "Event with ID " + id + " successfully deleted.";
+        } catch (Exception e) {
+            logger.error("Error while deleting the event with ID {}", id, e);
+
+            throw new CustomExceptionHandler("Error while deleting the event", e);
+        }
     }
 
     private Event findEventById(String id) {
