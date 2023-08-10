@@ -6,9 +6,7 @@ import com.eventservice.service.EventService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -32,13 +30,7 @@ public class EventController {
 
     @PostMapping("/create")
     public ResponseEntity<EventResponse> createEvent(@RequestBody EventRequest request) {
-        EventResponse createdEvent = eventService.createEvent(request);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(createdEvent.getId())
-                .toUri();
-        return ResponseEntity.created(location).body(createdEvent);
+        return new ResponseEntity<>(eventService.createEvent(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
