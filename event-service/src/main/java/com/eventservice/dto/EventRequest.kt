@@ -7,5 +7,6 @@ data class EventRequest(
     val eventDate: LocalDateTime,
     val location: String,
     val description: String,
-    val category: String
+    val category: String,
+    val organizerId: String
 )

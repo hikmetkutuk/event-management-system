@@ -14,9 +14,9 @@ data class Organizer @JvmOverloads constructor(
     val name: String,
     val contactInformation: String,
     @OneToMany(mappedBy = "organizer")
-    var events: MutableList<Event> = mutableListOf(),
-    val active: Boolean,
-    val isDeleted: Boolean,
+    var events: MutableList<Event>? = mutableListOf(),
+    var active: Boolean,
+    var isDeleted: Boolean,
     val insertedTime: LocalDateTime? = null,
     var updatedTime: LocalDateTime? = null
 )

@@ -1,4 +1,3 @@
-
 server:
   port: 8080
   servlet:
@@ -18,7 +17,7 @@ spring:
         - id: event-service
           uri: lb://event-service
           predicates:
-            - Path=/v1/api/event/**
+            - Path=/v1/api/event/**, /v1/api/organizer/**
 
 management:
   endpoints:

@@ -1,5 +1,6 @@
 package com.eventservice.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.GenericGenerator
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -18,6 +19,7 @@ data class Event @JvmOverloads constructor(
     val category: String,
     @ManyToOne
     @JoinColumn(name = "organizer_id")
+    @JsonIgnore
     var organizer: Organizer? = null,
     @ManyToMany
     @JoinTable(

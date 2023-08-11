@@ -5,6 +5,7 @@ import com.eventservice.dto.EventResponse;
 import com.eventservice.exception.CustomExceptionHandler;
 import com.eventservice.exception.ResourceNotFoundException;
 import com.eventservice.model.Event;
+import com.eventservice.model.Organizer;
 import com.eventservice.repository.EventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +19,12 @@ import java.util.stream.Collectors;
 @Service
 public class EventService {
     private final EventRepository eventRepository;
+    private final OrganizerService organizerService;
     private static final Logger logger = LoggerFactory.getLogger(EventService.class);
 
-    public EventService(EventRepository eventRepository) {
+    public EventService(EventRepository eventRepository, OrganizerService organizerService) {
         this.eventRepository = eventRepository;
+        this.organizerService = organizerService;
     }
 
     public List<EventResponse> getAllEvents() {
@@ -49,7 +52,8 @@ public class EventService {
                     event.getEventDate(),
                     event.getLocation(),
                     event.getDescription(),
-                    event.getCategory()
+                    event.getCategory(),
+                    event.getOrganizer()
             );
         } catch (Exception e) {
             logger.error("Error while retrieving event with id {}", id, e);
@@ -59,6 +63,7 @@ public class EventService {
 
     public EventResponse createEvent(EventRequest request) {
         try {
+            Organizer organizer = organizerService.findOrganizerById(request.getOrganizerId());
             Event newEvent = new Event(
                     null,
                     request.getEventName(),
@@ -66,7 +71,7 @@ public class EventService {
                     request.getLocation(),
                     request.getDescription(),
                     request.getCategory(),
-                    null,
+                    organizer,
                     null,
                     true,
                     false,
@@ -83,7 +88,8 @@ public class EventService {
                     newEvent.getEventDate(),
                     newEvent.getLocation(),
                     newEvent.getDescription(),
-                    newEvent.getCategory()
+                    newEvent.getCategory(),
+                    organizer
             );
         } catch (Exception e) {
             logger.error("Error while creating a new event", e);
@@ -118,7 +124,8 @@ public class EventService {
                     request.getEventDate(),
                     request.getLocation(),
                     request.getDescription(),
-                    request.getCategory()
+                    request.getCategory(),
+                    event.getOrganizer()
             );
         } catch (Exception e) {
             logger.error("Error while updating the event with ID {}", id, e);
