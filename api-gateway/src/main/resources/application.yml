@@ -17,7 +17,7 @@ spring:
         - id: event-service
           uri: lb://event-service
           predicates:
-            - Path=/v1/api/event/**, /v1/api/organizer/**
+            - Path=/v1/api/event/**, /v1/api/organizer/**, /v1/api/participant/**
 
 management:
   endpoints:

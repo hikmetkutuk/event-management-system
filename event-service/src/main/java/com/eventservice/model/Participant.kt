@@ -11,10 +11,14 @@ data class Participant @JvmOverloads constructor(
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     val id: String? = "",
+    @Column(nullable = false)
     val name: String,
+    @Column(nullable = false, unique = true)
+    val email: String,
+    @Column(nullable = false)
     val attendanceStatus: String,
     @ManyToMany(mappedBy = "participants")
-    var events: MutableList<Event> = mutableListOf(),
+    var events: MutableList<Event>? = mutableListOf(),
     val active: Boolean,
     val isDeleted: Boolean,
     val insertedTime: LocalDateTime? = null,

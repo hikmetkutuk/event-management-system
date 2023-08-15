@@ -29,7 +29,7 @@ public class EventService {
 
     public List<EventResponse> getAllEvents() {
         try {
-            List<Event> events = eventRepository.findAllActiveRecords();
+            List<Event> events = findAllEvents();
 
             logger.info("Total {} events retrieved", events.size());
 
@@ -151,8 +151,12 @@ public class EventService {
         }
     }
 
-    private Event findEventById(String id) {
+    public Event findEventById(String id) {
         return eventRepository.findActiveRecordById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found in db " + id));
+    }
+
+    public List<Event> findAllEvents() {
+        return eventRepository.findAllActiveRecords();
     }
 }

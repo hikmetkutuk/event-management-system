@@ -43,6 +43,38 @@ services:
       - elasticsearch
     networks:
       - elk
+
+  zookeeper:
+    image: 'bitnami/zookeeper:3'
+    container_name: ems-zookeeper
+    ports:
+      - '2181:2181'
+    volumes:
+      - 'zookeeper_data:/bitnami'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: 'bitnami/kafka:2'
+    container_name: ems-kafka
+    ports:
+      - '9092:9092'
+    volumes:
+      - 'kafka_data:/bitnami'
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    depends_on:
+      - zookeeper
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: ems-mailhog
+    ports:
+      - 1025:1025 # SMTP server ports
+      - 8025:8025 # Web UI ports
+
 volumes:
   ems-elastic-data: {}
 
