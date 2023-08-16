@@ -4,6 +4,7 @@ import com.eventservice.dto.ParticipantRequest;
 import com.eventservice.dto.ParticipantResponse;
 import com.eventservice.exception.CustomExceptionHandler;
 import com.eventservice.exception.ResourceNotFoundException;
+import com.eventservice.model.Organizer;
 import com.eventservice.model.Participant;
 import com.eventservice.repository.ParticipantRepository;
 import org.slf4j.Logger;
@@ -116,6 +117,23 @@ public class ParticipantService {
         } catch (Exception e) {
             logger.error("Error while updating the participant with ID {}", id, e);
             throw new CustomExceptionHandler("Error while updating the participant", e);
+        }
+    }
+
+    public String deleteParticipant(String id) {
+        try {
+            Participant participant = findParticipantById(id);
+            participant.setActive(false);
+            participant.setDeleted(true);
+            participant.setUpdatedTime(LocalDateTime.now());
+            participantRepository.save(participant);
+
+            logger.info("Participant with ID {} deleted", id);
+
+            return "Participant with ID " + id + " successfully deleted.";
+        } catch (Exception e) {
+            logger.error("Error while deleting the participant with ID {}", id, e);
+            throw new CustomExceptionHandler("Error while deleting the participant", e);
         }
     }
 

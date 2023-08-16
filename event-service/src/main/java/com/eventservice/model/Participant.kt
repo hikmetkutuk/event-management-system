@@ -19,8 +19,8 @@ data class Participant @JvmOverloads constructor(
     val attendanceStatus: String,
     @ManyToMany(mappedBy = "participants")
     var events: MutableList<Event>? = mutableListOf(),
-    val active: Boolean,
-    val isDeleted: Boolean,
+    var active: Boolean,
+    var isDeleted: Boolean,
     val insertedTime: LocalDateTime? = null,
     var updatedTime: LocalDateTime? = null
 )

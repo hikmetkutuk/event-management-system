@@ -37,4 +37,9 @@ public class ParticipantController {
     public ResponseEntity<ParticipantResponse> updateParticipant(@PathVariable String id, @RequestBody ParticipantRequest request) {
         return new ResponseEntity<>(participantService.updateParticipant(id, request), HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteParticipant(@PathVariable String id) {
+        return new ResponseEntity<>(participantService.deleteParticipant(id), HttpStatus.OK);
+    }
 }
