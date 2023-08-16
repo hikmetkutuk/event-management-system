@@ -1,6 +1,5 @@
 package com.eventservice.controller;
 
-import com.eventservice.dto.OrganizerResponse;
 import com.eventservice.dto.ParticipantRequest;
 import com.eventservice.dto.ParticipantResponse;
 import com.eventservice.service.ParticipantService;
@@ -32,5 +31,10 @@ public class ParticipantController {
     @GetMapping("/{id}")
     public ResponseEntity<ParticipantResponse> getParticipantById(@PathVariable String id) {
         return new ResponseEntity<>(participantService.getParticipantById(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ParticipantResponse> updateParticipant(@PathVariable String id, @RequestBody ParticipantRequest request) {
+        return new ResponseEntity<>(participantService.updateParticipant(id, request), HttpStatus.OK);
     }
 }

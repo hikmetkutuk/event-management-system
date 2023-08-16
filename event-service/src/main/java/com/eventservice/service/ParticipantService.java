@@ -88,6 +88,37 @@ public class ParticipantService {
         }
     }
 
+    public ParticipantResponse updateParticipant(String id, ParticipantRequest request) {
+        try {
+            Participant participant = findParticipantById(id);
+            Participant updatedParticipant = new Participant(
+                    participant.getId(),
+                    request.getName(),
+                    request.getEmail(),
+                    request.getAttendanceStatus(),
+                    participant.getEvents(),
+                    participant.getActive(),
+                    participant.isDeleted(),
+                    participant.getInsertedTime(),
+                    LocalDateTime.now()
+            );
+            participantRepository.save(updatedParticipant);
+
+            logger.info("Participant with ID {} updated", id);
+
+            return new ParticipantResponse(
+                    participant.getId(),
+                    participant.getName(),
+                    participant.getEmail(),
+                    participant.getAttendanceStatus(),
+                    participant.getEvents()
+            );
+        } catch (Exception e) {
+            logger.error("Error while updating the participant with ID {}", id, e);
+            throw new CustomExceptionHandler("Error while updating the participant", e);
+        }
+    }
+
     private Participant findParticipantById(String id) {
         return participantRepository.findActiveRecordById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Participant not found in db " + id));
