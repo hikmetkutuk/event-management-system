@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: notification-service
+  data:
+    rest:
+      detection-strategy: annotated
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+      write-dates-as-timestamps: false
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  kafka:
+    properties:
+      security.protocol: 'PLAINTEXT'
+    bootstrap-servers: localhost:9092
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: notification-service
+      auto-offset-reset: earliest
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+    listener:
+      missing-topics-fatal: false
+  mail:
+    host: mailhog
+    port: 1025
+    properties:
+      mail.smtp.auth: false
+      mail.smtp.starttls.enable: false
+    addresses:
+      from: ems@ems.com
+      replyTo: no-reply@ems.com
+  thymeleaf:
+    check-template-location: true
+    prefix: 'classpath:/templates/'
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+
+server:
+  port: 8082
+  error.whitelabel.enabled: false
+  servlet:
+    session:
+      timeout: 30h
+      cookie:
+        http-only: false
+        secure: false
