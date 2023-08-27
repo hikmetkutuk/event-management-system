@@ -1,6 +1,5 @@
 package com.notificationservice.controller;
 
-import com.notificationservice.listener.MailListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
