@@ -1,6 +1,6 @@
 ##
 
-![GitHub repo size](https://img.shields.io/github/repo-size/hikmetkutuk/spring-boot-develop?color=inactive&logo=github&style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/hikmetkutuk/event-management-system?color=inactive&logo=github&style=for-the-badge)
 ![.JAVA](https://img.shields.io/static/v1?&logo=openjdk&label=java&message=17&color=f29111&style=for-the-badge)
 ![.SPRINGBOOT](https://img.shields.io/static/v1?&logo=springboot&label=spring%20boot&message=2.7.9&color=6db33f&style=for-the-badge)
 ![Kotlin](https://img.shields.io/static/v1?&logo=kotlin&label=kotlin&message=1.6.0&color=8156fe&style=for-the-badge)
