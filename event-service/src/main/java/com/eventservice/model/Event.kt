@@ -1,9 +1,9 @@
 package com.eventservice.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 import java.time.LocalDateTime
-import javax.persistence.*
 
 @Entity
 @Table(name = "events")

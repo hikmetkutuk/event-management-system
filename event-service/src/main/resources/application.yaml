@@ -11,7 +11,7 @@ spring:
       ddl-auto: update
   datasource:
     username: postgres
-    url: jdbc:postgresql://localhost:5435/ems_event
+    url: jdbc:postgresql://localhost:5441/ems-event
     password: postgres
   config:
     import: optional:file:.env[.properties]

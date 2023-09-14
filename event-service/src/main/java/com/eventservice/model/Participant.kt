@@ -2,7 +2,7 @@ package com.eventservice.model
 
 import org.hibernate.annotations.GenericGenerator
 import java.time.LocalDateTime
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "participants")
