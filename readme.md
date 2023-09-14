@@ -8,3 +8,4 @@
 ![Docker](https://img.shields.io/static/v1?&logo=docker&label=docker&message=20.10.22&color=086dd7&style=for-the-badge)
 ![Elasticsearch](https://img.shields.io/static/v1?&logo=elasticsearch&label=elasticsearch&message=7.16.2&color=07a5de&style=for-the-badge)
 ![Kibana](https://img.shields.io/static/v1?&logo=kibana&label=kibana&message=7.16.2&color=3ebeb0&style=for-the-badge)
+![Keycloak](https://img.shields.io/static/v1?&logo=&label=keycloak&message=22.0.1&color=d4d4d4&style=for-the-badge)

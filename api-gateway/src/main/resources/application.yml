@@ -16,6 +16,11 @@ spring:
           uri: lb://event-service
           predicates:
             - Path=/v1/api/event/**, /v1/api/organizer/**, /v1/api/participant/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8888/realms/ems-realm
 
 management:
   endpoints:
