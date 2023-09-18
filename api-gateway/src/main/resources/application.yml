@@ -16,6 +16,10 @@ spring:
           uri: lb://event-service
           predicates:
             - Path=/v1/api/event/**, /v1/api/organizer/**, /v1/api/participant/**
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/v1/api/mail/**
   security:
     oauth2:
       resourceserver:

@@ -1,6 +1,25 @@
 spring:
   application:
     name: notification-service
-
+  mail:
+    host: smtp.elasticemail.com
+    port: 2525
+    username: hikmetkutuk@engineer.com
+    password:
+    default-encoding: UTF-8
+    properties:
+      mail:
+        mime:
+          charset: UTF-8
+        smtp:
+          writetimeout: 10000
+          connectiontimeout: 10000
+          timeout: 10000
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    verify:
+      host: smtp.elasticemail.com
 server:
   port: 8082

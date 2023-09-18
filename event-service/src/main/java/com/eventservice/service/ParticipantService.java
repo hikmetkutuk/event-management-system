@@ -1,10 +1,11 @@
 package com.eventservice.service;
 
+import com.eventservice.client.MailServiceClient;
+import com.eventservice.dto.MailContent;
 import com.eventservice.dto.ParticipantRequest;
 import com.eventservice.dto.ParticipantResponse;
 import com.eventservice.exception.CustomExceptionHandler;
 import com.eventservice.exception.ResourceNotFoundException;
-import com.eventservice.model.Organizer;
 import com.eventservice.model.Participant;
 import com.eventservice.repository.ParticipantRepository;
 import org.slf4j.Logger;
@@ -20,11 +21,13 @@ import java.util.stream.Collectors;
 public class ParticipantService {
     private final ParticipantRepository participantRepository;
     private final EventService eventService;
+    private final MailServiceClient mailServiceClient;
     private static final Logger logger = LoggerFactory.getLogger(ParticipantService.class);
 
-    public ParticipantService(ParticipantRepository participantRepository, EventService eventService) {
+    public ParticipantService(ParticipantRepository participantRepository, EventService eventService, MailServiceClient mailServiceClient) {
         this.participantRepository = participantRepository;
         this.eventService = eventService;
+        this.mailServiceClient = mailServiceClient;
     }
 
     public ParticipantResponse createParticipant(ParticipantRequest request) {
@@ -41,6 +44,12 @@ public class ParticipantService {
                     null
             );
             participantRepository.save(newParticipant);
+
+            MailContent mailContent = new MailContent(
+                    request.getEmail(),
+                    "Your event registration has been completed successfully."
+            );
+            mailServiceClient.sendSimpleMailMessage(mailContent);
 
             logger.info("New participant created with ID: {}", newParticipant.getId());
 

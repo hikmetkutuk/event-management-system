@@ -110,13 +110,6 @@ services:
     depends_on:
       - "kafka"
 
-  mailhog:
-    image: mailhog/mailhog
-    container_name: ems-mailhog
-    ports:
-      - 1025:1025 # SMTP server ports
-      - 8025:8025 # Web UI ports
-
 volumes:
   elastic-data: {}
   keycloak-data: {}
