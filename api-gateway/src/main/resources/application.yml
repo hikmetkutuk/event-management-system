@@ -20,6 +20,10 @@ spring:
           uri: lb://notification-service
           predicates:
             - Path=/v1/api/mail/**
+        - id: qrcode-service
+          uri: lb://qrcode-service
+          predicates:
+            - Path=/v1/api/qrcode/**
   security:
     oauth2:
       resourceserver:
