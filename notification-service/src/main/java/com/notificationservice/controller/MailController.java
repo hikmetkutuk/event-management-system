@@ -23,4 +23,10 @@ public class MailController {
         mailService.sendSimpleMailMessage(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/attachment-mail")
+    public ResponseEntity<Void> sendSimpleMailMessageWithAttachments(@RequestBody MailContent request) {
+        mailService.sendSimpleMailMessageWithAttachments(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

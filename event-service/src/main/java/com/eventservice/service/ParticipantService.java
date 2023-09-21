@@ -47,9 +47,10 @@ public class ParticipantService {
 
             MailContent mailContent = new MailContent(
                     request.getEmail(),
+                    "Event Ticket",
                     "Your event registration has been completed successfully."
             );
-            mailServiceClient.sendSimpleMailMessage(mailContent);
+            mailServiceClient.sendSimpleMailMessageWithAttachments(mailContent);
 
             logger.info("New participant created with ID: {}", newParticipant.getId());
 

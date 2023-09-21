@@ -10,4 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface MailServiceClient {
     @PostMapping("/simple-mail")
     ResponseEntity<Void> sendSimpleMailMessage(@RequestBody MailContent request);
+
+    @PostMapping("/attachment-mail")
+    ResponseEntity<Void> sendSimpleMailMessageWithAttachments(@RequestBody MailContent request);
 }

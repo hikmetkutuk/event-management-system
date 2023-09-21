@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/api/qrcode")
-public class QrCodeController {
+public class QRCodeController {
 
     private final QRCodeService qrCodeService;
 
-    public QrCodeController(QRCodeService qrCodeService) {
+    public QRCodeController(QRCodeService qrCodeService) {
         this.qrCodeService = qrCodeService;
     }
 
